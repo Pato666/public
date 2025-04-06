@@ -4,17 +4,17 @@ exports.handler = async function(event, context) {
 
   // Verifica se o arquivo solicitado é uma imagem
   if (path.match(/\.(jpg|jpeg|png|gif|svg|webp)$/i)) {
-    // Se for uma imagem, devolve a imagem normalmente
+    // Se for uma imagem, devolve a imagem normalmente (ajuste conforme necessário)
     return {
       statusCode: 200,
       headers: {
-        'Content-Type': 'image/jpeg',  // Mude conforme o tipo da imagem
+        'Content-Type': 'image/jpeg',  // Altere conforme o tipo da imagem
       },
       body: 'AQUI VAI O CONTEÚDO DA IMAGEM', // Aqui você pode retornar o conteúdo binário da imagem.
     };
   }
 
-  // Se for qualquer outro arquivo (HTML, JS, etc), devolve um HTML vazio com a mensagem
+  // Para qualquer outro arquivo (HTML, JS, CSS, etc), devolve um HTML vazio com a mensagem
   return {
     statusCode: 200,
     headers: {
