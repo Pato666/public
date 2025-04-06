@@ -1,18 +1,25 @@
-exports.handler = async (event, context) => {
-  const path = event.path;
+// netlify/functions/block-html.js
+exports.handler = async function(event, context) {
+  const path = event.path;  // Pega o caminho solicitado
 
-  const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
-  const isImage = allowedExtensions.some(ext => path.endsWith(ext));
-
-  if (path === '/index.html' || !isImage) {
+  // Verifica se o arquivo solicitado é uma imagem
+  if (path.match(/\.(jpg|jpeg|png|gif|svg|webp)$/i)) {
+    // Se for uma imagem, devolve a imagem normalmente
     return {
-      statusCode: 403,
-      body: 'Acesso negado a páginas HTML.',
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'image/jpeg',  // Mude conforme o tipo da imagem
+      },
+      body: 'AQUI VAI O CONTEÚDO DA IMAGEM', // Aqui você pode retornar o conteúdo binário da imagem.
     };
   }
 
+  // Se for qualquer outro arquivo (HTML, JS, etc), devolve um HTML vazio com a mensagem
   return {
     statusCode: 200,
-    body: 'Acesso permitido.',
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8',
+    },
+    body: '<html><head><title>Boa tentativa diddy</title></head><body><h1>Boa tentativa diddy</h1></body></html>',
   };
 };
