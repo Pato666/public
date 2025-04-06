@@ -1,16 +1,26 @@
 [build]
   publish = "/"  # Ou qualquer diretório correto onde o index.html está localizado
-  functions = "netlify/functions"  # Mantém o diretório de funções como está
+  functions = "netlify/functions"  # Diretório onde as funções estão
 
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/block-html"
   status = 200
-  force = true
+  force = true  # Força o redirecionamento para a função block-html
 
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options = "DENY"
-    Content-Security-Policy = "default-src 'self'; img-src 'none'; script-src 'none'; style-src 'none';"
-    Referrer-Policy = "no-referrer"
+    X-Frame-Options = "DENY"  # Impede que seu site seja exibido em iframes
+    Content-Security-Policy = "default-src 'none'; img-src 'none'; script-src 'none'; style-src 'none';"  # Bloqueia todos os recursos externos
+    Referrer-Policy = "no-referrer"  # Evita o vazamento de informações de referência
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Cache-Control = "no-store, must-revalidate"  # Não armazena em cache as funções do Netlify
+
+[[headers]]
+  for = "/public/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"  # Armazena as imagens em cache por um longo tempo
