@@ -1,5 +1,34 @@
+[build]
+  publish = "public"              # A pasta onde os arquivos estáticos estão
+  functions = "netlify/functions" # A pasta onde as funções estão
+
 [[redirects]]
-  from = "/*"   # Redireciona todas as requisições para a função de bloqueio
-  to = "/.netlify/functions/block-html"
+  from = "/*"                     # Redireciona todas as requisições
+  to = "/.netlify/functions/block-html" # Para a função que bloqueia o index.html
   status = 200
-  force = true
+  force = true                    # Força o redirecionamento
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"      # Bloqueia a exibição do site em iframes de outros sites
+    Content-Security-Policy = "default-src 'self'; img-src 'self'; script-src 'self';" # Restringe fontes e scripts
+    Referrer-Policy = "no-referrer" # Evita o vazamento de informações de referência
+    Feature-Policy = "vibrate 'none'; autoplay 'none'" # Bloqueia certos recursos de funcionalidades de navegador
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Cache-Control = "no-store, must-revalidate" # Não armazena em cache as funções do Netlify
+
+[[headers]]
+  for = "/public/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"  # Armazena as imagens em cache por um longo tempo
+
+# Protege o acesso ao conteúdo com headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff" # Impede o navegador de adivinhar o tipo de conteúdo
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains" # Força o uso de HTTPS
