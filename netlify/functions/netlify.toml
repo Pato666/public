@@ -1,9 +1,5 @@
-[build]
-  publish = "public"              # A pasta onde os arquivos estáticos estão
-  functions = "netlify/functions" # A pasta onde as funções estão
-
 [[redirects]]
-  from = "/*"                     # Redireciona todas as requisições
-  to = "/.netlify/functions/block-html" # Para a função que bloqueia o index.html
+  from = "/*"   # Redireciona todas as requisições para a função de bloqueio
+  to = "/.netlify/functions/block-html"
   status = 200
-  force = true                    # Força o redirecionamento
+  force = true
