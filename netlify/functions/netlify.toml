@@ -3,7 +3,7 @@
   functions = "netlify/functions"  # Diretório onde as funções estão
 
 [[redirects]]
-  from = "/*"
+  from = "/.*"  # Agora redireciona as requisições para arquivos estáticos, como imagens, JS, CSS, etc
   to = "/.netlify/functions/block-html"
   status = 200
   force = true  # Força o redirecionamento para a função block-html
@@ -12,7 +12,7 @@
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"  # Impede que seu site seja exibido em iframes
-    Content-Security-Policy = "default-src 'none'; img-src 'none'; script-src 'none'; style-src 'none';"  # Bloqueia todos os recursos externos
+    Content-Security-Policy = "default-src 'self'; img-src 'none'; script-src 'none'; style-src 'none';"  # Bloqueia todos os recursos externos
     Referrer-Policy = "no-referrer"  # Evita o vazamento de informações de referência
 
 [[headers]]
